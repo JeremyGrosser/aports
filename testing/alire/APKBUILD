@@ -1,0 +1,28 @@
+# Contributor: Jeremy Grosser <jeremy@synack.me>
+# Maintainer: Jeremy Grosser <jeremy@synack.me>
+pkgname=alire
+pkgver=1.2.0
+pkgrel=1
+pkgdesc="Ada LIbrary REpository"
+url="https://alire.ada.dev/"
+arch="all"
+license="GPL-3.0-or-later"
+depends="gcc-gnat gprbuild git curl unzip"
+options="!check"
+
+source="$pkgname-$pkgver.zip::https://github.com/alire-project/alire/releases/download/v$pkgver/alr-$pkgver-full-sources.zip"
+
+_alire_src="$srcdir/alr-$pkgver"
+
+build() {
+	cd $_alire_src
+	gprbuild -P alr_env.gpr -j0
+}
+
+package() {
+	mkdir -p "$pkgdir/usr/bin"
+	cp "$_alire_src/bin/alr" "$pkgdir/usr/bin"
+}
+sha512sums="
+955129c6834abd3f3e4ece315e088e6d88adc1289f61a9204ad1f504d719a2ee6c63a351e2d52622eb2c2d7af9ee29657641bc22cb1504af8c3ca5fade7e977c  alire-1.2.0.zip
+"
